@@ -1,0 +1,27 @@
+-- Active: 1749509647259@@127.0.0.1@3306
+CREATE DATABASE IF NOT EXISTS garagephp_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `garagephp_db`;
+CREATE TABLE `users` (  
+  `user_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(50) NOT NULL,
+  `email` VARCHAR(150) NOT NULL DEFAULT,
+  `password` VARCHAR(255) NOT NULL,
+  'role' ENUM('user', 'admin') NOT NULL DEFAULT 'user',
+  `created_at` TIMESTAMP  NULL DEFAULT CURRENT_TIMESTAMP,
+  'updated_at' TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+);
+
+CREATE TABLE cars (
+    'car_id' INT AUTO_INCREMENT PRIMARY KEY,
+    'marque' VARCHAR(100) NOT NULL,
+    'model' VARCHAR(100) NOT NULL,
+    'annee' YEAR NOT NULL,
+    'couleur' VARCHAR(50) NOT NULL,
+    'immatriculation' VARCHAR(20) NOT NULL UNIQUE,
+    'prix' DECIMAL(10, 2) NOT NULL,
+    'status' ENUM('disponible', 'vendu') NOT NULL DEFAULT 'disponible',
+    'created_at' TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+    'updated_at' TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+
