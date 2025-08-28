@@ -1,0 +1,21 @@
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %(REQUEST_URL) !^/public/ [NC]
+    RewriteCond %(REQUEST_URL) !^index.php [NC]
+    RewriteRule ^(.*)$ /public/$1 [L]
+</IfModule>
+
+#Securité des fichiers sensbles
+<FileMatch "\.(env|log|sql|md|json|lock|yml|ini)$>
+Require all denied
+</FileMatch>
+
+<!--Headers de sécurité-->
+<IfModule mod_headers.c>
+   Header always set x-Content-Type-Options nosniff
+   Header always set-frame-Options DENY
+   Header always set X-XSS-Protection "1; mode=block"
+   Header always set Strict-Transport-security    "max-age=31536000; includeSubDomains"
+   Header always set Content-Security-Policy "default-src 'self';script-src 'self 'unasafe-inline'"
+</IfModule>

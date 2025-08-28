@@ -8,8 +8,8 @@ require_once __DIR__ . '/Vendor/autoload.php';
 
 // Import des classes 
 use App\config\Config;
-use App\Utils\Response;
-use App\Utils\Logger;
+use App\Utils\Response; // Ensure the Response class exists in the App\Utils namespace
+use App\Utils\Logger; // Ensure the Logger class exists in the App\Utils namespace
 use FastRoute\Dispatcher;
 
 // Démarrer une session ou reprend la session existant
