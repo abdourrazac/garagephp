@@ -1,6 +1,6 @@
 <?php
 namespace App\Controllers;
-use App\Security\Validator; // Ensure the Validator class exists in the App\Security namespace
+use App\Security\Validator; // Ensure the Validator class exists in the App\Security namespace or adjust the namespace if incorrect
 use App\Utils\Response; // Ensure the Response class exists in the App\Utils namespace
 
 /**
@@ -16,7 +16,7 @@ abstract class BaseController {
     
     public function __construct() {
         $this->response = new Response();
-        $this->validator = new Validator();
+        $this->validator =  new Validator();
     }
 
     /**

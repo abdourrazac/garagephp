@@ -1,4 +1,3 @@
-<?php
 
 namespace App\Models;
 use App\Config\Database;
@@ -20,6 +19,7 @@ abstract class BaseModels {
 
     public function __construct(?string $table) {
         $this->db = Database::getInstance();
+    }
 }
 
-}
+<?php
