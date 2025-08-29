@@ -57,7 +57,7 @@ class User extends BaseModels {
             throw new InvalidArgumentException("Le mot de passe court.");
         }
 
-        $this->password = $password_hash($password, PASSWORD_ARGON2ID);
+        $this->password = password_hash($password, PASSWORD_ARGON2ID);
         return $this;
     }
 
@@ -88,9 +88,16 @@ class User extends BaseModels {
                     ':role' => $this->role ?? 'user' // On assigne par défaut le rôle user
                 
                 ];
+                $result = $stmt->execute($params);
+
+                if ($result) {
+                    $this->user_id = (int)$this->db->lastInsertId();
+                }
+                return $result;
+
            } else {
 
-                $sql = "UPDATE {$this->table} SET username = :username, email = :email, role = :role WHERE user_id = :id";
+                $sql = "UPDATE {$this->table} SET username = :username, email = :email, role = :role WHERE user_id = :user_id";
                 $stmt = $this->db->prepare($sql);
     
                 // On lie les paramétres pour la mise à jour
@@ -99,25 +106,20 @@ class User extends BaseModels {
                      ':email' => $this->email,
                      ':role' => $this->role,  // ATTENTION le 
                      ':user_id' => $this->user_id // ATTENTION la condition WHERE est IMPORTANT
-               };
+                ];
+                return $stmt->execute($params);
+           }
+    }
+    
+            /**
+             * Trouve un utilisateur par son email
+             * @param string|null l'objet user trouvé ou null
+             */
+            public function findByEmail(string $email): static {
 
-               $result = $stmt->execute($params);
-
-               if($this->user_id === null && $result) {
-                   $this->user_id = (int)$this->db->lastInsertId();
-               }
-                return $result;
-        }
-        
-        /**
-         * Trouve un utilisateur par son email
-         * @param string|null l'objet user trouvé ou null
-         */
-        public function findByEmail(string $email): static {
-
-            stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE email = :email");
+            $stmt = $this->db->prepare("SELECT * FROM {$this->table} WHERE email = :email");
             $stmt->execute([':email'=> $email]);
-            $data $stmt->fetch(PDO::FETCH_ASSOC;
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
             return $data ? $this->hydrate($data) : null ;
         
         }
@@ -149,7 +151,6 @@ class User extends BaseModels {
             $this->password = $data['password'];
             $this->role = $data['role'];
             return $this;       
-        }
     }
 }
 
