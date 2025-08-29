@@ -5,7 +5,7 @@ use App\Models\User;
 use App\Security\Validator;
 use App\Security\TokenManger;
 use App\Controllers\LoggerInterface;
-use App\Services\Logger; // Assuming Logger is in the App\Services namespace and implements LoggerInterface
+use Psr\Log\Logger; // Assuming you want to use a PSR-3 compliant logger
 
 /**
  * Cette classe gére les actions liées à l'authentification et à l'inscription des utilisateurs
@@ -152,7 +152,7 @@ use App\Services\Logger; // Assuming Logger is in the App\Services namespace and
             // On utilise les setters pour assigner les valeurs(inclut la validation et le hashage du MDP)
             $newUser->setUsername($data['username'])
                     ->setEmail($data['email'])
-                    ->setPassword(password($data['password']))
+                    ->setPassword(password_hash($data['password'], PASSWORD_DEFAULT))
                     ->setRole($data['user']); // role par defaut
 
             // On sauvegarde en BDD
